@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: postgres_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: user
@@ -9,9 +9,9 @@ services:
       POSTGRES_DB: dataB
       PGDATA: /var/lib/postgresql/data
     ports:
-      - '5433:5432'
+      - '5433:5432' #maps host port 5433 to container port 5432
     volumes:
-      - postgres:/data/postgres
+      - postgres:/var/lib/postgresql/data
     networks:
       - spring-demo
 
