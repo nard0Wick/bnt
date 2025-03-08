@@ -2,6 +2,7 @@ package com.leo.book.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +28,7 @@ public class JwtService {
 
     private <T> T extractClaims(String token, Function<Claims, T> claimResolver) {
         final Claims claims = extractAllClaims(token);
-        return claimResolver.apply(claims);
+        return  claimResolver.apply(claims);
     }
 
     private Claims extractAllClaims(String token) {
