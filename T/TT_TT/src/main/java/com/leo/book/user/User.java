@@ -3,6 +3,7 @@ package com.leo.book.user;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "users")
-public class User implements UserDetails, Principal {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,20 +27,16 @@ public class User implements UserDetails, Principal {
     @Email
     private String email;
     @Column(nullable = false)
+    @Length(min = 8)
     private String password;
     private String firstName;
     private String lastName;
+    @Enumerated(EnumType.STRING)
     private Role role;
-
-
-    @Override
-    public String getName() {
-        return email;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(role.toString()));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
