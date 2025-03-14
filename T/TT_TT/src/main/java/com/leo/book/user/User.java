@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.security.Principal;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "users")
-public class User implements UserDetails {
+public class User implements UserDetails , Principal{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,6 +31,10 @@ public class User implements UserDetails {
     private String lastName;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private Date createTime;
+    private Date lastModifiedDate;
+    private boolean isActivated = false;
+    private boolean enabled = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -45,4 +50,8 @@ public class User implements UserDetails {
     public String getUsername() {
         return email;
     }
+
+    //principal
+    @Override
+    public String getName() { return email; }
 }
